@@ -28,7 +28,6 @@ def get_user_by_username(db: Session, username: str) -> User:
 def create_user(
     db: Session,
     user: UserCreate,
-    is_admin: bool = False
 ):
     hashed_password = get_password_hash(user.password)
 
@@ -37,7 +36,7 @@ def create_user(
         username=user.username,
         hashed_password=hashed_password,
         full_name=user.full_name,
-        is_admin=is_admin,
+        is_admin=user.is_admin,
     )
 
     db.add(db_user)
@@ -124,13 +123,11 @@ def get_user_prediction_stats(db: Session, user_id: int) -> dict:
     }
 
 def get_all_users(db: Session):
-    return db.query(models.User).all()
-
-
+    return db.query(User).all()
 
 def get_global_stats(db: Session) -> dict:
-    total_users = db.query(func.count(models.User.id)).scalar()
-    total_predictions = db.query(func.count(models.Prediction.id)).scalar()
+    total_users = db.query(func.count(User.id)).scalar()
+    total_predictions = db.query(func.count(Prediction.id)).scalar()
 
     return {
         "total_users": total_users,

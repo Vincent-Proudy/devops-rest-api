@@ -56,6 +56,7 @@ class UserCreate(BaseModel):
     username: str
     password: str
     full_name: Optional[str] = None
+    is_admin: bool = False
 
 
 class UserResponse(BaseModel):

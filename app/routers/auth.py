@@ -36,6 +36,8 @@ def login(
         "token_type": "bearer"
     }
 
+# ================== register ==================
+
 @router.post("/register", response_model=schemas.UserResponse)
 def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user.email)
